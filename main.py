@@ -12,6 +12,7 @@ class MDPrinter():
         self.curheight = 10
         self.lines = []
         self.end_margins = end_margins
+        self.line_length = (self.width - 2 * self.end_margins)*0.45
 
     def read_md(self, dir):
         file = open(dir, 'r')
@@ -27,7 +28,7 @@ class MDPrinter():
             else:
                 font = self.get_font_size(i)
                 size = self.get_text_dimensions(i,font)[0]
-                if size >= (self.width - 2 * self.end_margins)*2/5:
+                if size >= self.line_length:
                     self.draw_long_text(font, i)
                 else:
                     self.draw_text(i)
@@ -57,12 +58,12 @@ class MDPrinter():
 
     def draw_long_text(self, font, text):
         text2 = text
-        if self.get_text_dimensions(text=text2, points=font)[0] < (self.width - 2 * self.end_margins)*2/5:
+        if self.get_text_dimensions(text=text2, points=font)[0] < self.line_length:
             self.draw_text(text2)
         else:
             temp = ""
             for i in range(0, len(text2)):
-                if self.get_text_dimensions(text=text2[0:i], points=font)[0] <= (self.width - 2 * self.end_margins)*2/5:
+                if self.get_text_dimensions(text=text2[0:i], points=font)[0] <= self.line_length:
                     temp += text2[i]
                 else:
                     text2 = text2[i:]
